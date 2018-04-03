@@ -39,10 +39,7 @@ impl<'a, 's> Repository<'a> for InMemory<'s> {
 }
 
 fn get_url<'d, T: Repository<'d>>(repo: &mut T, short: &'d str) -> Result<Url, &'d str> {
-    match repo.get(short) {
-        Ok(url) => Ok(url),
-        Err(err) => Err(err),
-    }
+    Ok(repo.get(short)?)
 }
 
 fn save_url<'d, T: Repository<'d>>(
