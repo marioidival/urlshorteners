@@ -1,0 +1,6 @@
+[package]
+name = "urlshortener"
+version = "0.1.0"
+authors = ["Mário Idival <marioidival@gmail.com>"]
+
+[dependencies]
