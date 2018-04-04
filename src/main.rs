@@ -1,5 +1,4 @@
 extern crate urlshortener;
-use std::collections::HashMap;
 
 use urlshortener::{
     boundaries::InMemory,
