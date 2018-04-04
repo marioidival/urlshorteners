@@ -32,3 +32,64 @@ impl<'a, 's> Repository<'a> for InMemory<'s> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_inmemory_save() {
+        let mut db = InMemory::default();
+        let url = Url {
+            original: "www.google.com",
+            short: "xd",
+            count: 0,
+        };
+        match db.save(url) {
+            Ok(new_url) => assert_eq!(url, new_url),
+            Err(_) => eprintln!("Unexpected result"),
+        }
+    }
+
+    #[test]
+    fn test_inmemory_save_twice() {
+        let mut db = InMemory::default();
+        let url = Url {
+            original: "www.google.com",
+            short: "xd",
+            count: 0,
+        };
+        match db.save(url) {
+            Ok(new_url) => assert_eq!(url, new_url),
+            Err(_) => eprintln!("Unexpected result"),
+        }
+        match db.save(url) {
+            Ok(_) => eprintln!("Unexpected result"),
+            Err(err) => assert_eq!(err, "Already exists"),
+        }
+    }
+
+    #[test]
+    fn test_inmemory_get_notfound() {
+        let mut db = InMemory::default();
+        match db.get("xd") {
+            Ok(_) => eprintln!("Unexpected result"),
+            Err(err) => assert_eq!(err, "Not Found"),
+        }
+    }
+
+    #[test]
+    fn test_inmemory_get() {
+        let mut db = InMemory::default();
+        let url = Url {
+            original: "www.google.com",
+            short: "xd",
+            count: 0,
+        };
+        let new_url = db.save(url).unwrap();
+        match db.get("xd") {
+            Ok(get_url) => assert_eq!(get_url.original, new_url.original),
+            Err(__) => eprintln!("Unexpected result"),
+        }
+    }
+}
