@@ -70,7 +70,7 @@ mod tests {
     fn test_get_url_not_found() {
         let mut db = InMemory::default();
         match GetUrl::action(&mut db, "xd") {
-            Ok(url) => println!("expected no result!"),
+            Ok(_) => eprintln!("expected no result!"),
             Err(err) => assert_eq!("Not Found", err),
         }
     }
